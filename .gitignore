@@ -19,6 +19,7 @@ node_modules/
 
 # store files
 .DS_Store
+.glitch-assets
 
 # data files
 data.json

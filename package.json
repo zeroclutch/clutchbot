@@ -1,6 +1,6 @@
 {
-  "name": "discord-1337-bot",
-  "version": "0.0.1",
+  "name": "clutch-bot",
+  "version": "0.0.2",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -10,7 +10,8 @@
     "discord.js": "^11.4.2",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
-    "google-translate-api": "^2.3.0"
+    "google-translate-api": "^2.3.0",
+    "moji-translate": "^1.0.8"
   },
   "engines": {
     "node": "8.x"
