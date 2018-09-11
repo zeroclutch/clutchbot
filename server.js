@@ -1,3 +1,4 @@
+require('dotenv').load();
 const Discord = require("discord.js");
 const client = new Discord.Client();
 const app = require("express")();
@@ -21,10 +22,12 @@ const commandFiles = fs.readdirSync('./commands');
 // add commands to list
 for (const commandFolder of commandFiles) {
   //search through each folder
-  const folder = fs.readdirSync(`./commands/${commandFolder}`);
-  for(const file of folder) {
-    const command = require(`./commands/${commandFolder}/${file}`);
-    client.commands.set(command.name, command);
+  if(!commandFolder.includes('.DS_Store')) {
+    const folder = fs.readdirSync(`./commands/${commandFolder}`);
+    for(const file of folder) {
+      const command = require(`./commands/${commandFolder}/${file}`);
+      client.commands.set(command.name, command);
+    }
   }
 }
 
@@ -132,11 +135,6 @@ client.on('message', function(msg) {
 // Handle all GET requests
 app.get('/', function (request, response) {
     response.sendFile(__dirname + '/index.html');
-})
-
-app.get('/guilds', function (req, res) {
-  res.set({"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"});
-  res.send(client.guilds.array())
 })
 
 // Listen on port 3000
