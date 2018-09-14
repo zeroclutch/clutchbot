@@ -5,7 +5,7 @@ const languages = require('../../data/utility/languages')
 module.exports = {
     name: 'translate',
     usage: 'translate <startlanguage> <endlanguage> <phrase>',
-    aliases: ['trans'],
+    aliases: ['t', 'trans'],
     description: `Translates text to and from any language. Use "auto" as the start language to detect language. Use \`${options.prefix}tl\` for the list of valid languages`,
     category: 'utility',
     permissions: [],

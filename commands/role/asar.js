@@ -25,14 +25,7 @@ module.exports = {
           name: roleName.toLowerCase(),
           id: roleID
         })
-        fs.writeFile('data.json', JSON.stringify(msg.client.data), (err) => {
-          if (err) {
-            console.error(err);
-            msg.channel.send(`There was an error adding this role to the list.`)
-          } else {
-            msg.channel.send(`${roleName} is now a self-assignable role.`)
-          }
-        });
+        msg.channel.send(`${roleName} is now a self-assignable role.`)
       } else {
         msg.channel.send('Role not found.')
       }

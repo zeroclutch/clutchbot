@@ -26,14 +26,7 @@ module.exports = {
                   break;
               }
           }
-          fs.writeFile('data.json', JSON.stringify(msg.client.data), (err) => {
-            if (err) {
-              console.error(err);
-              msg.channel.send(`There was an error removing this role from the list.`)
-            } else {
-              msg.channel.send(`${roleInput} is no longer a self-assignable role.`)
-            }
-          });
+          msg.channel.send(`${roleInput} is no longer a self-assignable role.`)
       } else {
         msg.channel.send('This role is not on the list of self-assignable roles.')
       }
