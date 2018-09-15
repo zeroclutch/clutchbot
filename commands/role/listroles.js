@@ -13,7 +13,11 @@ module.exports = {
       response += '\n' + role.name
     })
     if(response) {
-      msg.channel.send(`The self-assignable roles for this server are:${response}`);
+      msg.channel.send(`The self-assignable roles for this server are:${response}`, {
+        embed: {
+          description: response
+        }
+      });
     } else {
       msg.channel.send(`This server has no self-assignable roles.`)
     }

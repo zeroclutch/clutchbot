@@ -20,7 +20,7 @@ module.exports = {
             msg.channel.send(`Translation from ${languages[res.from.language.iso]}\`[${res.from.language.iso}]\` to ${languages[endlanguage]}\`[${endlanguage}]\`:\n${res.text}`);
         }).catch(err => {
             console.error(err);
-            msg.channel.send(`Translation failed. Make sure you\'re using valid language codes. See ${options.prefix}tl for the list of valid languages.`)
+            msg.channel.send(`Translation failed. Make sure you\'re using valid language codes. See ${msg.prefix}tl for the list of valid languages.`)
         });
     }
   }

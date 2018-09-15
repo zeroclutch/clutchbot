@@ -1,5 +1,4 @@
 const request = require('axios')
-const options = require('../../config/options')
 module.exports = {
   name: 'exchange',
   usage: 'exchange <amount> <currency1> <currency2>',
@@ -20,10 +19,10 @@ module.exports = {
       })
       .catch(err => {
         console.error(err)
-        msg.channel.send(`Incorrect usage of this command. Try \`${options.prefix}help exchange\` for help.`)
+        msg.channel.send(`Incorrect usage of this command. Try \`${msg.prefix}help exchange\` for help.`)
       })
     } else {
-      msg.channel.send(`Incorrect usage of this command. Try \`${options.prefix}help exchange\` for help.`)
+      msg.channel.send(`Incorrect usage of this command. Try \`${msg.prefix}help exchange\` for help.`)
     }
   }
 }

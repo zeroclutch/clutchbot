@@ -101,7 +101,8 @@ client.getRoleID = function(server, role, global) {
 }
 
 // provide help
-client.help = function(msg, command, prefix) {
+client.help = function(msg, command) {
+  const prefix = msg.prefix
   // find command in question
   const helpCmd = client.commands.find(cmd => cmd.name === command.args.join(" ")) ||  client.commands.find(cmd => cmd.aliases.includes(command.args.join(" ")))
   // find help for a specific command
@@ -150,7 +151,7 @@ client.on('guildCreate', function(guild) {
 
 // handle commands
 client.on('message', function(msg) {
-  const prefix = (client.data[msg.guild.id] ? client.data[msg.guild.id].options : options).prefix
+  const prefix = msg.prefix = (client.data[msg.guild.id] ? client.data[msg.guild.id].options : options).prefix
   if (!msg.content.startsWith(prefix) || msg.author.bot) return
   
   const message = msg.content.substring(prefix.length, msg.content.length).split(" ")
@@ -163,7 +164,7 @@ client.on('message', function(msg) {
 
   // provide help
   if(command.name === 'help') {
-    client.help(msg, command, prefix);
+    client.help(msg, command);
   }
   
   if(cmd) {
@@ -193,11 +194,13 @@ client.on('message', function(msg) {
       cmd.run(msg, command.args)
     }
     client.writeData(client.data).then(() => {
-      msg.channel.stopTyping(true)
+      setTimeout(() => {
+        msg.channel.stopTyping(true)
+      }, 1000)
     })
     .catch((err) => {
       console.error(err)
-      msg.channel.send('Sorry, an error occurred.')
+      msg.channel.send('There was an error performing this command.')
     })
     return
   }
