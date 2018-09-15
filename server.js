@@ -151,7 +151,8 @@ client.on('guildCreate', function(guild) {
 
 // handle commands
 client.on('message', function(msg) {
-  const prefix = msg.prefix = (client.data[msg.guild.id] ? client.data[msg.guild.id].options : options).prefix
+  var prefix = msg.prefix = (client.data[msg.guild.id] ? client.data[msg.guild.id].options : options).prefix
+  if (msg.content.startsWith(`<@!${client.user.id}> `)) prefix = `<@!${client.user.id}> `
   if (!msg.content.startsWith(prefix) || msg.author.bot) return
   
   const message = msg.content.substring(prefix.length, msg.content.length).split(" ")
@@ -181,7 +182,7 @@ client.on('message', function(msg) {
     msg.channel.startTyping()
     if(cmd.args) {
       if(command.args.join('') === '') {
-        msg.channel.send(`Incorrect usage of this command. Usage: \`${prefix}${cmd.usage}\`.`)
+        msg.channel.send(`Incorrect usage of this command. Usage: \`${msg.prefix}${cmd.usage}\`.`)
       } else {
         try {
           cmd.run(msg, command.args)

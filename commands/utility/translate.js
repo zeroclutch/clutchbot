@@ -1,12 +1,11 @@
 const translate = require('google-translate-api')
-const options = require('../../config/options')
 const languages = require('../../data/utility/languages')
  
 module.exports = {
     name: 'translate',
     usage: 'translate <startlanguage> <endlanguage> <phrase>',
     aliases: ['t', 'trans'],
-    description: `Translates text to and from any language. Use "auto" as the start language to detect language. Use \`${options.prefix}tl\` for the list of valid languages`,
+    description: `Translates text to and from any language. Use "auto" as the start language to detect language. Use \`tl\` for the list of valid languages`,
     category: 'utility',
     permissions: [],
     args: true,
