@@ -14,8 +14,8 @@ module.exports = {
     })
     if(response) {
       msg.channel.send(`The self-assignable roles for this server are:`, {
-        "color": 4513714,
         embed: {
+          "color": 4513714,
           description: response
         }
       });

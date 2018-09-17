@@ -90,8 +90,6 @@ client.addGuild = function(guildID) {
   client.writeData(data)
 }
 
-
-
 // get role data
 client.getRoleID = function(server, role, global) {
   // find role id for server
@@ -144,6 +142,17 @@ Discord.GuildMember.prototype.hasRole = function(roleID) {
   return false
 }
 
+Discord.TextChannel.prototype.startTypingAsync = function (channelResolvable) {
+  return new Promise((resolve, reject) => { 
+    try {
+      channelResolvable.startTyping()
+      resolve(true)
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
 // update guilds list
 client.on('guildCreate', function(guild) {
   client.addGuild(guild.id)
@@ -178,8 +187,8 @@ client.on('message', function(msg) {
     }
 
 
+    msg.channel.startTypingAsync(msg.channel).then(()=>{
     //try running command
-    msg.channel.startTyping()
     if(cmd.args) {
       if(command.args.join('') === '') {
         msg.channel.send(`Incorrect usage of this command. Usage: \`${msg.prefix}${cmd.usage}\`.`)
@@ -194,17 +203,23 @@ client.on('message', function(msg) {
     } else {
       cmd.run(msg, command.args)
     }
-    client.writeData(client.data).then(() => {
-      setTimeout(() => {
-        msg.channel.stopTyping(true)
-      }, 1000)
+    client.writeData(client.data)
+    .catch((err) => {
+      console.error(err)
+      msg.channel.send('There was an error performing this command.')
+    })
     })
     .catch((err) => {
       console.error(err)
       msg.channel.send('There was an error performing this command.')
     })
+    .then(() => setTimeout(() => msg.channel.stopTyping(true), 200))
     return
   }
+})
+
+client.on('typingStart', function(channel, user) {
+  if(user.id === client.user.id) channel.stopTyping(true)
 })
 
 // Handle all GET requests
