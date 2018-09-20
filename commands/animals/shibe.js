@@ -13,10 +13,10 @@ module.exports = {
       var fileName = req.data[0].toLowerCase()
       if(fileName.includes('.gif') || fileName.includes('.png') || fileName.includes('.jpeg') || fileName.includes('.jpg')) {
         msg.channel.send('', {
-          "embed": {
-            "color": 4513714,
-            "image": {
-              "url": req.data[0]
+          embed: {
+            color: 4513714,
+            image: {
+              url: req.data[0]
             }
           }
          })
