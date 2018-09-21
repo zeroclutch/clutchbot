@@ -13,22 +13,32 @@ module.exports = {
               responses = args.slice(1)
         if(responses[responses.length - 1].replace(' ', '') === '') responses.pop()
 
+        // send poll
         msg.channel.send('', {
             embed: {
                 color: 4513714,
                 title: args[0],
                 description: (function () {
                     var res = ''
+                    // list options
                     responses.forEach((response, i) => {
-                        res += `:${letters[i + 1]}: ${response}\n`
+                        if(i < letters.length) {
+                            res += `:${letters[i + 1]}: ${response}\n`
+                        }
                     })
                     return res
                 })()
             }
-        }).then(async (m) => {
-            responses.forEach((response, i) => {
-                await m.react(emoji[i + 1])
-            })
+        }).then(m => {
+            m.react(emoji[1])
+            .then(e=>{if(responses[1])m.react(emoji[2])})
+            .then(e=>{if(responses[2])m.react(emoji[3])})
+            .then(e=>{if(responses[3])m.react(emoji[4])})
+            .then(e=>{if(responses[4])m.react(emoji[5])})
+            .then(e=>{if(responses[5])m.react(emoji[6])})
+            .then(e=>{if(responses[6])m.react(emoji[7])})
+            .then(e=>{if(responses[7])m.react(emoji[8])})
+            .then(e=>{if(responses[8])m.react(emoji[9])})
         })
     }
   }
