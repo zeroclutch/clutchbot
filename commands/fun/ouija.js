@@ -38,7 +38,7 @@ module.exports = {
                     url: "https://reddit.com" + submission.permalink,
                     description: 'Ouija says: ' + reply,
                     footer: {
-                        "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png",
+                        "icon_url": "https://cdn.discordapp.com/emojis/492254092887064578.png",
                         "text": `${submission.score} ${submission.score === 1 ? 'upvote' : 'upvotes'}`
                     }
                 }
