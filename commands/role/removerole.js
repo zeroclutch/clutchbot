@@ -26,12 +26,12 @@ module.exports = {
                   break;
               }
           }
-          msg.channel.send(`${roleInput} is no longer a self-assignable role.`)
+          msg.channel.sendMsgEmbed(`${roleInput} is no longer a self-assignable role.`)
       } else {
-        msg.channel.send('This role is not on the list of self-assignable roles.')
+        msg.channel.sendMsgEmbed('This role is not on the list of self-assignable roles.')
       }
     } else {
-      msg.channel.send('Role not found.')
+      msg.channel.sendMsgEmbed('Role not found.')
     }
   }
 }

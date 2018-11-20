@@ -16,6 +16,6 @@ module.exports = {
             if(english.includes(letter)) text += thiccText[english.indexOf(letter)]
             else text += letter
         }
-        msg.channel.send(text)
+        msg.channel.sendMsgEmbed(text)
     }
   }

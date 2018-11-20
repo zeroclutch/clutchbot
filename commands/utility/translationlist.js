@@ -13,7 +13,7 @@ module.exports = {
         for(var lang in languages) {
             text += `\`${lang}\`: ${languages[lang]}, `
         }
-        msg.channel.send(text)
+        msg.channel.sendMsgEmbed(text)
     }
   }
 

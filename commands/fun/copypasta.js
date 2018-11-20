@@ -7,7 +7,9 @@ module.exports = {
     category: 'fun',
     permissions: [],
     args: false,
+    loader: true,
     run: function(msg, args) {
+        // TODO: generate one snoowrap globally instead of creating a new instance each time
         const r = new snoowrap({
             userAgent: 'ClutchBot v0.1 (by /u/mrprgr)',
             clientId: process.env.REDDIT_CLIENT_ID,

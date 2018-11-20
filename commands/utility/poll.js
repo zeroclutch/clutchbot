@@ -29,7 +29,10 @@ module.exports = {
                     return res
                 })()
             }
-        }).then(m => {
+        })
+        
+        // add reactions
+        .then(m => {
             m.react(emoji[1])
             .then(e=>{if(responses[1])m.react(emoji[2])})
             .then(e=>{if(responses[2])m.react(emoji[3])})

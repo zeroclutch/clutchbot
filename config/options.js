@@ -3,6 +3,6 @@ module.exports = {
   token: process.env.DISCORD_BOT_TOKEN,
   activity: {
     game: '.iam Gay',
-    type: 'PL'
+    type: 'PLAYING'
   }
 }

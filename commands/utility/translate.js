@@ -3,23 +3,24 @@ const languages = require('../../data/utility/languages')
  
 module.exports = {
     name: 'translate',
-    usage: 'translate <startlanguage> <endlanguage> <phrase>',
+    usage: 'translate <endlanguage> <phrase>',
     aliases: ['t', 'trans'],
-    description: `Translates text to and from any language. Use "auto" as the start language to detect language. Use \`tl\` for the list of valid languages`,
+    description: `Translates text to any language. Use \`tl\` for the list of valid languages`,
     category: 'utility',
     permissions: [],
     args: true,
+    loader: true,
     run: function(msg, args) {
-        const startlanguage = args[0].toLowerCase(),
-        endlanguage = args[1].toLowerCase(),
-        phrase = args.slice(2).join(" ")
+        const endlanguage = args[0].toLowerCase()
+        phrase = args.slice(1).join(" ")
 
-        translate(phrase, {from: startlanguage, to: endlanguage})
+        translate(phrase, {from: 'auto', to: endlanguage})
         .then(res => {
-            msg.channel.send(`Translation from ${languages[res.from.language.iso]}\`[${res.from.language.iso}]\` to ${languages[endlanguage]}\`[${endlanguage}]\`:\n${res.text}`);
+            msg.channel.sendMsgEmbed(res.text, `Translation from ${languages[res.from.language.iso]}\`[${res.from.language.iso}]\` to ${languages[endlanguage]}\`[${endlanguage}]\``);
         }).catch(err => {
             console.error(err);
-            msg.channel.send(`Translation failed. Make sure you\'re using valid language codes. See ${msg.prefix}tl for the list of valid languages.`)
+            msg.channel.sendMsgEmbed(`Make sure you\'re using valid language codes. See ${msg.prefix}tl for the list of valid languages.`, 'Translation failed', 13632027)
+            msg.channel.stopTyping(true)
         });
     }
   }
