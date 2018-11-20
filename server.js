@@ -86,7 +86,7 @@ client.addGuild = function(guildID) {
     }
   }
 
-  //rewrite updated data to file
+  // rewrite updated data to file
   client.writeData(data)
 }
 
