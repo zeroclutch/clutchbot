@@ -17,19 +17,19 @@ module.exports = {
                 if(kickedUser.kickable) {
                     kickedUser.kick(`Kicked by ${msg.member.displayName} for ${reason}`)
                     .then(()=>{
-                        msg.channel.send(`<@${kickedUser.id}> was kicked by <@${msg.author.id}>. Reason: ${reason}`)
+                        msg.channel.sendMsgEmbed(`<@${kickedUser.id}> was kicked by <@${msg.author.id}>. Reason: ${reason}`)
                     })
                     .catch(err=>{
                         console.error(err)
-                        msg.channel.send('There was an error performing this command. Try again later.');
+                        msg.channel.sendMsgEmbed('There was an error performing this command. Try again later.');
                     })
                 }
-                else msg.channel.send('Sorry, I couldn\'t kick that user. Ask an Administrator to check my permissions.')
+                else msg.channel.sendMsgEmbed('Sorry, I couldn\'t kick that user. Ask an Administrator to check my permissions.')
             } else {
-                msg.channel.send('Sorry, you don\'t have the permissions to kick this user.');
+                msg.channel.sendMsgEmbed('Sorry, you don\'t have the permissions to kick this user.');
             }
         } else {
-            msg.channel.send('User not found.')
+            msg.channel.sendMsgEmbed('User not found.')
         }
     }
   }

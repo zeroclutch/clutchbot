@@ -6,13 +6,13 @@ module.exports = {
   category: 'dev',
   permissions: ["GOD"],
   args: true,
-  run: function(msg, args) {
+  run: async function(msg, args) {
     var response = '';
     try {
-      response += eval('(function(){'+msg.content.substring(6,msg.content.length)+'})();')
-      msg.channel.send("*eval completed*\nResponse Time: `" + (Date.now()-msg.createdTimestamp) + "ms`\nresponse:```json\n" + JSON.stringify(response) + "```");
+      response += await eval('(function(){'+msg.content.substring(6,msg.content.length)+'})();')
+      msg.channel.sendMsgEmbed("*eval completed*\nResponse Time: `" + (Date.now()-msg.createdTimestamp) + "ms`\nresponse:```json\n" + JSON.stringify(response) + "```");
     } catch (err) {
-      msg.channel.send("*eval failed*\nResponse Time: `" + (Date.now()-msg.createdTimestamp) + "ms`\nerror:```json\n" + err.message + "```");
+      msg.channel.sendMsgEmbed("*eval failed*\nResponse Time: `" + (Date.now()-msg.createdTimestamp) + "ms`\nerror:```json\n" + err.message + "```");
     }
   }
 }

@@ -105,7 +105,7 @@ client.help = function(msg, command) {
   const helpCmd = client.commands.find(cmd => cmd.name === command.args.join(" ")) ||  client.commands.find(cmd => cmd.aliases.includes(command.args.join(" ")))
   // find help for a specific command
   if(helpCmd && helpCmd.category !== 'dev') {
-    msg.channel.send(`**__HELP:__**
+    msg.channel.sendMsgEmbed(`**__HELP:__**
                     \nCommand: \`${prefix}${helpCmd.name}\`
                     \nDescription: ${helpCmd.description}
                     \nUsage: \`${prefix}${helpCmd.usage}\`
@@ -131,7 +131,7 @@ client.help = function(msg, command) {
       }
       return response
     })();
-    msg.channel.send(`**__HELP:__**\nTo see info about a specific command, use \`${prefix}help <command name>\`.\n Available commands:\n${commandList}* = Permissions required`)
+    msg.channel.sendMsgEmbed(`**__HELP:__**\nTo see info about a specific command, use \`${prefix}help <command name>\`.\n Available commands:\n${commandList}* = Permissions required`)
   }
   return false
 }
@@ -142,6 +142,7 @@ Discord.GuildMember.prototype.hasRole = function(roleID) {
   return false
 }
 
+// asynchronous TextChannel.startTyping()
 Discord.TextChannel.prototype.startTypingAsync = function (channelResolvable) {
   return new Promise((resolve, reject) => { 
     try {
@@ -153,15 +154,27 @@ Discord.TextChannel.prototype.startTypingAsync = function (channelResolvable) {
   })
 }
 
+// 
+Discord.TextChannel.prototype.sendMsgEmbed = function(description, title, embedColor) {
+  this.send('', {
+    embed: {
+      color:  embedColor || 4513714,
+      title,
+      description
+    }
+  })
+}
+
 // update guilds list
 client.on('guildCreate', function(guild) {
   client.addGuild(guild.id)
 })
 
 // handle commands
-client.on('message', function(msg) {
+client.on('message', async function(msg) {
   var prefix = msg.prefix = (client.data[msg.guild.id] ? client.data[msg.guild.id].options : options).prefix
-  if (msg.content.startsWith(`<@!${client.user.id}> `)) prefix = `<@!${client.user.id}> `
+  if (msg.content.startsWith(`<@!${client.user.id}> `)) msg.content = msg.content.replace(`<@!${client.user.id}> `, prefix)
+  if (msg.content.startsWith(`<@${client.user.id}> `)) msg.content = msg.content.replace(`<@${client.user.id}> `, prefix)
   if (!msg.content.startsWith(prefix) || msg.author.bot) return
   
   const message = msg.content.substring(prefix.length, msg.content.length).split(" ")
@@ -181,45 +194,42 @@ client.on('message', function(msg) {
     // test for permissions
     if(cmd.permissions && msg.author.id !== process.env.OWNER_ID) {
       if(!msg.member.hasPermission(cmd.permissions)) {
-        msg.channel.send('Sorry, you don\'t have the necessary permissions for this command.')
+        msg.channel.sendMsgEmbed('Sorry, you don\'t have the necessary permissions for this command.')
         return
       }
     }
 
-
-    msg.channel.startTypingAsync(msg.channel).then(()=>{
+    // start typing if message requires load time
+    if(cmd.loader) {
+      await msg.channel.startTypingAsync(msg.channel)
+    }
     //try running command
-    if(cmd.args) {
-      if(command.args.join('') === '') {
-        msg.channel.send(`Incorrect usage of this command. Usage: \`${msg.prefix}${cmd.usage}\`.`)
-      } else {
+    if(cmd.args && command.args.join('') === '') {
+        msg.channel.sendMsgEmbed(`Incorrect usage of this command. Usage: \`${msg.prefix}${cmd.usage}\`.`)
+    } else {
+      await new Promise((resolve, reject) => {
         try {
           cmd.run(msg, command.args)
         } catch (err) {
-          console.error(err)
-          msg.channel.send('There was an error performing this command.')
+          reject(err)
         }
-      }
-    } else {
-      cmd.run(msg, command.args)
+        resolve(cmd)
+      })
+      .catch((err) => {
+        console.error(err)
+        msg.channel.sendMsgEmbed('There was an error performing this command.')
+      })
+      .then(()=>{
+        client.writeData(client.data)
+        .catch((err) => {
+          console.error(err)
+          msg.channel.sendMsgEmbed('There was an error performing this command.')
+        })
+        .then(() => msg.channel.stopTyping(true))
+      })
     }
-    client.writeData(client.data)
-    .catch((err) => {
-      console.error(err)
-      msg.channel.send('There was an error performing this command.')
-    })
-    })
-    .catch((err) => {
-      console.error(err)
-      msg.channel.send('There was an error performing this command.')
-    })
-    .then(() => setTimeout(() => msg.channel.stopTyping(true), 200))
     return
   }
-})
-
-client.on('typingStart', function(channel, user) {
-  if(user.id === client.user.id) channel.stopTyping(true)
 })
 
 // Handle all GET requests

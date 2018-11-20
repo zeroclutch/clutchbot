@@ -16,11 +16,11 @@ module.exports = {
     if(newPrefix) {
       guildData.options.prefix = newPrefix
       msg.client.data[msg.channel.guild.id] = guildData
-      msg.channel.send(`The prefix has been updated to \`${newPrefix}\``)
+      msg.channel.sendMsgEmbed(`The prefix has been updated to \`${newPrefix}\``)
     // inform about current prefix
     } else {
-      if(guildData.options && guildData.options.prefix) msg.channel.send(`The prefix for this server is \`${guildData.options.prefix}\``)
-      else msg.channel.send(`The prefix for this server is \`${process.env.PREFIX}\``)
+      if(guildData.options && guildData.options.prefix) msg.channel.sendMsgEmbed(`The prefix for this server is \`${guildData.options.prefix}\``)
+      else msg.channel.sendMsgEmbed(`The prefix for this server is \`${process.env.PREFIX}\``)
     }
   }
 }

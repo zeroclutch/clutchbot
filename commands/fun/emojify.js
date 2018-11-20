@@ -7,6 +7,7 @@ module.exports = {
     category: 'fun',
     permissions: [],
     args: true,
+    loader: true,
     run: function(msg, args) {
         var text = ''
         args.forEach(word => {
@@ -14,6 +15,6 @@ module.exports = {
             if (emoji) text += `${word} ${emoji} `
             else text += `${word} `
         })
-        msg.channel.send(text)
+        msg.channel.sendMsgEmbed(text)
     }
   }

@@ -19,9 +19,9 @@ module.exports = {
         });
         return response.join(", ");
       })();
-      msg.channel.send(`Role: \`${role.name}\`\nMembers: \`\`\`${members}\`\`\``);
+      msg.channel.sendMsgEmbed(`Role: \`${role.name}\`\nMembers: \`\`\`${members}\`\`\``);
     } else {
-      msg.channel.send("Role not found.")
+      msg.channel.sendMsgEmbed("Role not found.")
     }
   }
 }

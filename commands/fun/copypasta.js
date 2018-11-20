@@ -7,7 +7,9 @@ module.exports = {
     category: 'fun',
     permissions: [],
     args: false,
+    loader: true,
     run: function(msg, args) {
+        // TODO: generate one snoowrap globally instead of creating a new instance each time
         const r = new snoowrap({
             userAgent: 'ClutchBot v0.1 (by /u/mrprgr)',
             clientId: process.env.REDDIT_CLIENT_ID,
@@ -16,25 +18,39 @@ module.exports = {
             password: process.env.REDDIT_PASSWORD
         });
 
+        function sendReply(submission) {
+            msg.channel.send('', { 
+                "embed": {
+                    "color": 4513714,
+                    "title": submission.title,
+                    "description": submission.toJSON().selftext.substring(0, Math.min(submission.toJSON().selftext.length, 2048)),
+                    "url": "https://reddit.com" + submission.permalink,
+                    "footer": {
+                        "icon_url": "https://cdn.discordapp.com/emojis/492254092887064578.png",
+                        "text": `${submission.score} ${submission.score === 1 ? 'upvote' : 'upvotes'}`
+                    },
+                }
+            })
+            .then(msg => {
+                msg.react(msg.client.emojis.find(emoji => emoji.id === '492248537644531722'))
+                .then(() => {
+                    msg.react(msg.client.emojis.find(emoji => emoji.id === '492248331356209162'))
+                })
+            })
+        }
+
         if(!args || args.length === 0) {
             r.getSubreddit('copypasta').getRandomSubmission()
             .then(submission => {
+                sendReply(submission)
+            })
+            .catch(err => {
+                console.error(err)
                 msg.channel.send('', { 
                     "embed": {
-                        "color": 4513714,
-                        "description": submission.toJSON().selftext.substring(0, Math.min(submission.toJSON().selftext.length, 2048)),
-                        "url": "https://reddit.com" + submission.permalink,
-                        "footer": {
-                            "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png",
-                            "text": `${submission.score} ${submission.score === 1 ? 'upvote' : 'upvotes'}`
-                        },
+                        "color": 0xfd171c,
+                        "description": 'No results found.',
                     }
-                })
-                .then(msg => {
-                    msg.react('👍')
-                    .then(() => {
-                        msg.react('👎')
-                    })
                 })
             })
         } else {
@@ -42,23 +58,7 @@ module.exports = {
             .then(listing => {
                 const submission = listing[0]
                 if(submission) {
-                    msg.channel.send('', { 
-                        "embed": {
-                            "color": 4513714,
-                            "description": submission.toJSON().selftext.substring(0, Math.min(submission.toJSON().selftext.length, 2048)),
-                            "url": "https://reddit.com" + submission.permalink,
-                            "footer": {
-                                "icon_url": "https://cdn.discordapp.com/embed/avatars/0.png",
-                                "text": `${submission.score} ${submission.score === 1 ? 'upvote' : 'upvotes'}`
-                            },
-                        }
-                    })
-                    .then(msg => {
-                        msg.react('👍')
-                        .then(() => {
-                            msg.react('👎')
-                        })
-                    })
+                    sendReply(submission)
                 } else {
                     msg.channel.send('', { 
                         "embed": {
@@ -67,6 +67,15 @@ module.exports = {
                         }
                     })
                 }
+            })
+            .catch(err => {
+                console.error(err)
+                msg.channel.send('', { 
+                    "embed": {
+                        "color": 0xfd171c,
+                        "description": 'No results found.',
+                    }
+                })
             })
         }
     }

@@ -16,26 +16,26 @@ module.exports = {
       if(userID && roleName) {
         // see if user has role
         if(!user.hasRole(roleID)) {
-            msg.channel.send('User does not have this role.')
+            msg.channel.sendMsgEmbed('User does not have this role.')
             return
         }
 
         // see if message author has permissions to assign this role
         if(msg.member.highestRole.comparePositionTo(msg.guild.roles.find(role => role.id === roleID)) <= 0) {
-            msg.channel.send('Sorry, you don\'t have the permissions to remove this role.')
+            msg.channel.sendMsgEmbed('Sorry, you don\'t have the permissions to remove this role.')
             return
         }
 
         // add role
         user.removeRole(roleID).then(()=>{
-           msg.channel.send(`${user.displayName} no longer has the "${roleName}" role.`);
+           msg.channel.sendMsgEmbed(`${user.displayName} no longer has the "${roleName}" role.`);
          })
          .catch(err => {
            console.error(err);
-           msg.channel.send('Sorry, I couldn\'t remove that role. Ask an Administrator to check my permissions.');
+           msg.channel.sendMsgEmbed('Sorry, I couldn\'t remove that role. Ask an Administrator to check my permissions.');
          });
       } else {
-        msg.channel.send(`Incorrect usage of this command. Use \`${msg.prefix}help takerole\``)
+        msg.channel.sendMsgEmbed(`Incorrect usage of this command. Use \`${msg.prefix}help takerole\``)
       }
     }
   }

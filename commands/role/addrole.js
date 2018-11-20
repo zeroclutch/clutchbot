@@ -18,16 +18,16 @@ module.exports = {
     
     if(guildRoles.find(role => role.id === roleID)) {
       msg.client.data[msg.channel.guild.id].roles.find(role => role.id === roleID).name = roleName;
-      msg.channel.send('This role has already been added to the list of self-assignable roles.')
+      msg.channel.sendMsgEmbed('This role has already been added to the list of self-assignable roles.')
     } else {
       if(roleID) {
         msg.client.data[msg.channel.guild.id].roles.push({
           name: roleName.toLowerCase(),
           id: roleID
         })
-        msg.channel.send(`${roleName} is now a self-assignable role.`)
+        msg.channel.sendMsgEmbed(`${roleName} is now a self-assignable role.`)
       } else {
-        msg.channel.send('Role not found.')
+        msg.channel.sendMsgEmbed('Role not found.')
       }
     }
   }

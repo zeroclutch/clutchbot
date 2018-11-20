@@ -11,17 +11,17 @@ module.exports = {
     const roleName = args.join(" ")
     const roleID = msg.client.getRoleID(msg.channel.guild.id, roleName.toLowerCase());
     if(roleID) {
-      if(!msg.member.hasRole(roleID)) msg.channel.send('You don\'t have this role!');
+      if(!msg.member.hasRole(roleID)) msg.channel.sendMsgEmbed('You don\'t have this role!');
       //remove role
       else {
        msg.member.removeRole(roleID).then(() => {
-         msg.channel.send('You no longer have the ' + roleName +  ' role!');
+         msg.channel.sendMsgEmbed('You no longer have the ' + roleName +  ' role!');
        }).catch(err=>{
-         msg.channel.send('Sorry, I couldn\'t remove that role. Ask an Administrator to check my permissions.');
+         msg.channel.sendMsgEmbed('Sorry, I couldn\'t remove that role. Ask an Administrator to check my permissions.');
        });
       }
     } else {
-      msg.channel.send(`${roleName} is not a self-assignable role.`)
+      msg.channel.sendMsgEmbed(`${roleName} is not a self-assignable role.`)
     }
   }
 }

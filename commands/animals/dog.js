@@ -7,6 +7,7 @@ module.exports = {
   category: 'animals',
   permissions: [],
   args: false,
+  loader: true,
   run: function(msg, args) {
     request('https://random.dog/woof.json')
     .then(req => {
@@ -21,11 +22,11 @@ module.exports = {
           }
          })
       }
-      else msg.channel.send(req.data.url)
+      else msg.channel.sendMsgEmbed(req.data.url)
     })
     .catch(err => {
       console.error(err)
-      msg.channel.send('There was an error, try again later')
+      msg.channel.sendMsgEmbed('There was an error, try again later', '', 13841223)
     })
   }
 }
