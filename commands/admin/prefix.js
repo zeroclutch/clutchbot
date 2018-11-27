@@ -1,7 +1,7 @@
 const fs = require('fs');
 module.exports = {
   name: 'prefix',
-  usage: 'prefix <role>',
+  usage: 'prefix <new prefix (optional)>',
   aliases: [],
   description: 'View or change the prefix for this server',
   category: 'admin',

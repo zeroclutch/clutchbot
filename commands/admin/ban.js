@@ -1,6 +1,6 @@
 module.exports = {
     name: 'ban',
-    usage: 'ban <user>',
+    usage: 'ban <user> <reason>',
     aliases: [],
     description: 'Bans a user',
     category: 'admin',

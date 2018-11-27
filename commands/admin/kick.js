@@ -1,6 +1,6 @@
 module.exports = {
     name: 'kick',
-    usage: 'kick <user>',
+    usage: 'kick <user> <reason>',
     aliases: [],
     description: 'Kicks a user',
     category: 'admin',
