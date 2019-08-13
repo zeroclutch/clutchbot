@@ -55,6 +55,7 @@ for (const commandFolder of commandFiles) {
   if(!commandFolder.includes('.DS_Store')) {
     const folder = fs.readdirSync(`./commands/${commandFolder}`);
     for(const file of folder) {
+      if(file.includes('disabled')) continue
       const command = require(`./commands/${commandFolder}/${file}`);
       client.commands.set(command.name, command);
     }
@@ -229,6 +230,25 @@ client.on('message', async function(msg) {
       })
     }
     return
+  }
+})
+
+// update roles list on role delete
+client.on('roleDelete', (oldRole, role) => {
+  const roleList = client.data[role.guild.id].roles
+  const matchingRoleFilter = r => r.id == role.id
+  if(roleList.find(matchingRoleFilter)) {
+    roleList.splice(roleList.findIndex(matchingRoleFilter),1)
+  }
+})
+
+// update roles list on role update
+client.on('roleUpdate', (oldRole, role) => {
+  const roleList = client.data[role.guild.id].roles
+  const matchingRoleFilter = r => r.id == role.id
+  if(roleList.find(matchingRoleFilter)) {
+    // replace role
+    roleList.splice(roleList.findIndex(matchingRoleFilter), 1, { name: role.name, id: role.id })
   }
 })
 

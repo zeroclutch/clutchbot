@@ -13,9 +13,10 @@ module.exports = {
       response += '\n' + role.name
     })
     if(response) {
-      msg.channel.sendMsgEmbed(`The self-assignable roles for this server are:`, {
+      msg.channel.send({
         embed: {
-          "color": 4513714,
+          title: `The self-assignable roles for this server are:`,
+          color: 4513714,
           description: response
         }
       });

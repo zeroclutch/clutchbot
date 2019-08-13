@@ -24,12 +24,12 @@ module.exports = {
                         msg.channel.sendMsgEmbed('There was an error performing this command. Try again later.');
                     })
                 }
-                else msg.channel.sendMsgEmbed('Sorry, I couldn\'t ban that user. Ask an Administrator to check my permissions.')
+                else msg.channel.sendMsgEmbed('Sorry, I couldn\'t ban that user. Ask an Administrator to check my permissions.', '', 13632027)
             } else {
-                msg.channel.sendMsgEmbed('Sorry, you don\'t have the permissions to ban this user.');
+                msg.channel.sendMsgEmbed('Sorry, you don\'t have the permissions to ban this user.', '', 13632027);
             }
         } else {
-            msg.channel.sendMsgEmbed('User not found.')
+            msg.channel.sendMsgEmbed('User not found.', '', 13632027)
         }
     }
   }
