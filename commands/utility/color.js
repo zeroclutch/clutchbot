@@ -34,9 +34,9 @@ module.exports = {
     name: 'color',
     usage: 'color <hex code/rgb code/hsl code>',
     aliases: ['col'],
-    description: 'Gets a color based on a hex code (#FFFFFF), RGB value (rgb(255,255,255), or HSL value (hsl(0,0,100)).',
-    category: 'dev',
-    permissions: ["GOD"],
+    description: 'Gets a color based on a hex code `#FFFFFF`, RGB value `rgb(255,255,255`, or HSL value `hsl(0,0,100)`.',
+    category: 'utility',
+    permissions: [],
     args: false,
     run: function(msg, args) {
         const color = args.join(' ')
