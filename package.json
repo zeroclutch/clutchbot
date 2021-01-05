@@ -6,7 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "canvas": "^2.5.0",
     "discord.js": "^11.4.2",
     "dotenv": "^6.0.0",
